@@ -16,7 +16,7 @@ export default function FiveItems(props) {
                 src={iconURLfromCode(item.icon)}
                 alt={item.icon}
               />
-              <p className="p-0 m-0 font-sans font-light text-xs">{item.temp.toFixed()}°C</p>
+              <p className="p-0 m-0 font-sans font-light text-xs">{item.temp.toFixed()}°{props.unit === "metric" ? "C" : "F"}</p>
               <p className="p-0 m-0 font-sans font-light text-sm first-letter:capitalize">
                 {item.moment}
               </p>

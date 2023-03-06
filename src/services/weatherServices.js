@@ -12,7 +12,6 @@ const getWeatherInfo = (infoType, searchParams) => {
     .then((data) => data);
 };
 
-
 function formatActualWeather(data) {
   const {
     coord: { lat, lon },
@@ -37,18 +36,13 @@ function formatActualWeather(data) {
   };
 }
 
-
-function formatToLocal(
-  from,
-  format = "ccc, dd LLL"
-) {
+function formatToLocal(from, format = "ccc, dd LLL") {
   return DateTime.fromFormat(`${from}`, `yyyy-MM-dd hh:mm:ss`).toFormat(format);
 }
 
-
 const formatForecastWeather = (data) => {
   const datalist = [...data.list];
-  const localTime = formatToLocal(datalist[0].dt_txt)
+  const localTime = formatToLocal(datalist[0].dt_txt);
   const hourly = datalist.slice(0, 5).map((d) => {
     return {
       icon: d.weather[0].icon,
@@ -86,7 +80,6 @@ const formatForecastWeather = (data) => {
   return { localTime, daily, hourly };
 };
 
-
 const getFormatedActualWeather = async (searchParams) => {
   const formatedActualWeather = await getWeatherInfo(
     "weather",
@@ -94,20 +87,20 @@ const getFormatedActualWeather = async (searchParams) => {
   ).then((data) => formatActualWeather(data));
 
   const { lat, lon } = formatedActualWeather;
-  
+
   const formatedForecastWeather = await getWeatherInfo("forecast", {
     lat,
     lon,
     units: searchParams.units,
   }).then((data) => formatForecastWeather(data));
 
-  return {...formatedActualWeather, ...formatedForecastWeather};
+  return { ...formatedActualWeather, ...formatedForecastWeather };
 };
 
-function iconURLfromCode(code){
-  return `https://openweathermap.org/img/wn/${code}@2x.png`
+function iconURLfromCode(code) {
+  return `https://openweathermap.org/img/wn/${code}@2x.png`;
 }
 
 export default getFormatedActualWeather;
 
-export {iconURLfromCode};
+export { iconURLfromCode};
